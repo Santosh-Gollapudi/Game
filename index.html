@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integrity Challenge Simulator</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #764ba2;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .score {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 20px 0;
+        }
+        .scenario {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .scenario h3 {
+            color: #764ba2;
+            margin-bottom: 15px;
+        }
+        .scenario p {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+        .choice {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid #ddd;
+            transition: all 0.3s;
+        }
+        .choice:hover {
+            background: #f0f0f0;
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+        .choice.disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        .feedback {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+        }
+        .feedback.show { display: block; }
+        .feedback.ethical {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            color: #155724;
+        }
+        .feedback.questionable {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            color: #856404;
+        }
+        .feedback.unethical {
+            background: #f8d7da;
+            border: 2px solid #dc3545;
+            color: #721c24;
+        }
+        .feedback strong {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            display: block;
+            margin: 20px auto;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #5568d3;
+        }
+        .hidden { display: none; }
+        .final-screen {
+            text-align: center;
+        }
+        .final-screen h2 {
+            color: #764ba2;
+            margin-bottom: 20px;
+        }
+        .final-screen p {
+            font-size: 18px;
+            line-height: 1.8;
+            margin: 20px 0;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Integrity Challenge Simulator</h1>
+        <p class="subtitle">Test Your Workplace Ethics & Honesty</p>
+        
+        <div id="game-area">
+            <div class="score">Score: <span id="score">0</span>/50</div>
+            <div id="scenario-container"></div>
+            <div id="feedback" class="feedback"></div>
+            <button id="next-btn" class="hidden">Next Scenario</button>
+        </div>
+
+        <div id="final-screen" class="hidden final-screen">
+            <h2>🎉 Challenge Complete!</h2>
+            <div class="score">Final Score: <span id="final-score"></span>/50</div>
+            <p id="final-message"></p>
+            <button onclick="location.reload()">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        const scenarios = [
+            {
+                situation: "Your colleague shares an innovative idea with you in private. Your manager later asks who came up with it.",
+                choices: [
+                    {text: "Take credit yourself", points: 0, type: "unethical", feedback: "Taking credit for others' work violates trust and honesty. This damages relationships and creates a toxic culture."},
+                    {text: "Say it was a team effort", points: 5, type: "questionable", feedback: "While collaborative, this doesn't give proper credit where it's due. Honesty means acknowledging individual contributions."},
+                    {text: "Give your colleague full credit", points: 10, type: "ethical", feedback: "Excellent! Giving proper credit demonstrates integrity and builds trust. Honest recognition strengthens workplace relationships."},
+                    {text: "Say you don't remember", points: 0, type: "unethical", feedback: "Avoiding the truth is dishonest and prevents proper recognition. Integrity requires acknowledging facts even when uncomfortable."}
+                ]
+            },
+            {
+                situation: "You overhear sensitive information about an upcoming company decision that could benefit you financially.",
+                choices: [
+                    {text: "Use it for personal gain", points: 0, type: "unethical", feedback: "Using insider information is both unethical and often illegal. Integrity means respecting confidentiality regardless of personal benefit."},
+                    {text: "Share it with close friends", points: 0, type: "unethical", feedback: "Sharing confidential information breaks trust and can harm the organization. Honesty includes protecting sensitive data."},
+                    {text: "Keep it confidential", points: 10, type: "ethical", feedback: "Perfect! Maintaining confidentiality shows integrity and professionalism. Trustworthiness is built through respecting boundaries."},
+                    {text: "Report the leak", points: 10, type: "ethical", feedback: "Excellent! Reporting security breaches protects the organization and demonstrates commitment to ethical standards."}
+                ]
+            },
+            {
+                situation: "A coworker asks you to cover for them by lying to your supervisor about missing a deadline.",
+                choices: [
+                    {text: "Agree to help", points: 0, type: "unethical", feedback: "Lying to supervisors breaks trust and enables poor behavior. Integrity means being honest even when it's difficult."},
+                    {text: "Refuse politely", points: 5, type: "questionable", feedback: "Good boundary-setting, but consider encouraging honesty. True integrity involves helping others make ethical choices."},
+                    {text: "Tell the supervisor immediately", points: 5, type: "questionable", feedback: "Honesty is important, but going directly to authority without addressing your colleague first may damage trust."},
+                    {text: "Suggest they be honest instead", points: 10, type: "ethical", feedback: "Outstanding! Encouraging honesty helps create a culture of integrity and supports your colleague's growth."}
+                ]
+            },
+            {
+                situation: "You notice a colleague using company resources for personal projects during work hours.",
+                choices: [
+                    {text: "Ignore it", points: 0, type: "unethical", feedback: "Ignoring unethical behavior allows it to continue. Integrity requires addressing issues that affect the workplace."},
+                    {text: "Join them", points: 0, type: "unethical", feedback: "Misusing company resources violates trust and policies. Honesty means respecting organizational property and time."},
+                    {text: "Discuss it privately with them", points: 10, type: "ethical", feedback: "Excellent! Private discussion shows respect while addressing the issue. This approach promotes integrity without public shaming."},
+                    {text: "Report to management immediately", points: 5, type: "questionable", feedback: "Reporting may be necessary, but addressing the person first shows respect and can resolve issues more constructively."}
+                ]
+            },
+            {
+                situation: "You observe inappropriate behavior toward a team member but fear retaliation if you speak up.",
+                choices: [
+                    {text: "Stay silent", points: 0, type: "unethical", feedback: "Silence enables harmful behavior. Integrity requires standing up for what's right, even when it's difficult."},
+                    {text: "Support the victim privately", points: 5, type: "questionable", feedback: "Private support is valuable, but doesn't address the root problem. True integrity involves taking action to stop harm."},
+                    {text: "Report through proper channels", points: 10, type: "ethical", feedback: "Perfect! Using proper reporting channels protects victims and yourself while maintaining integrity. This is courageous honesty."},
+                    {text: "Confront the perpetrator directly", points: 5, type: "questionable", feedback: "Direct confrontation shows courage but may escalate danger. Proper reporting channels are safer and more effective."}
+                ]
+            }
+        ];
+
+        let currentScenario = 0;
+        let totalScore = 0;
+
+        function loadScenario() {
+            if (currentScenario >= scenarios.length) {
+                showFinalScreen();
+                return;
+            }
+
+            const scenario = scenarios[currentScenario];
+            const container = document.getElementById('scenario-container');
+            
+            let html = '<div class="scenario">';
+            html += '<h3>Scenario ' + (currentScenario + 1) + ' of ' + scenarios.length + '</h3>';
+            html += '<p><strong>' + scenario.situation + '</strong></p>';
+            html += '<p>What do you do?</p>';
+            
+            scenario.choices.forEach(function(choice, index) {
+                html += '<div class="choice" onclick="selectChoice(' + index + ')">';
+                html += String.fromCharCode(65 + index) + '. ' + choice.text;
+                html += '</div>';
+            });
+            
+            html += '</div>';
+            container.innerHTML = html;
+
+            document.getElementById('feedback').className = 'feedback';
+            document.getElementById('next-btn').classList.add('hidden');
+        }
+
+        function selectChoice(choiceIndex) {
+            const scenario = scenarios[currentScenario];
+            const choice = scenario.choices[choiceIndex];
+            
+            totalScore += choice.points;
+            document.getElementById('score').textContent = totalScore;
+
+            const feedback = document.getElementById('feedback');
+            feedback.className = 'feedback ' + choice.type + ' show';
+            
+            let title = choice.points === 10 ? '✅ Ethical Choice!' : 
+                       choice.points === 5 ? '⚠️ Questionable Choice' : '❌ Unethical Choice';
+            
+            feedback.innerHTML = '<strong>' + title + '</strong>' +
+                               '<p>' + choice.feedback + '</p>' +
+                               '<p><strong>Points: +' + choice.points + '</strong></p>';
+
+            const choices = document.querySelectorAll('.choice');
+            choices.forEach(function(el) {
+                el.classList.add('disabled');
+                el.onclick = null;
+            });
+
+            document.getElementById('next-btn').classList.remove('hidden');
+        }
+
+        function showFinalScreen() {
+            document.getElementById('game-area').classList.add('hidden');
+            document.getElementById('final-screen').classList.remove('hidden');
+            document.getElementById('final-score').textContent = totalScore;
+
+            let message = '';
+            if (totalScore >= 45) {
+                message = '🌟 Outstanding! You demonstrate exceptional integrity and honesty. You\'re a role model for workplace ethics!';
+            } else if (totalScore >= 35) {
+                message = '👍 Great job! You have a strong ethical compass and make good decisions most of the time.';
+            } else if (totalScore >= 25) {
+                message = '💭 Good effort! You understand ethics but there\'s room to strengthen your commitment to integrity.';
+            } else {
+                message = '📚 Keep learning! Review workplace ethics principles to better navigate ethical dilemmas with integrity.';
+            }
+
+            document.getElementById('final-message').textContent = message;
+        }
+
+        document.getElementById('next-btn').onclick = function() {
+            currentScenario++;
+            loadScenario();
+        };
+
+        loadScenario();
+    </script>
+</body>
+</html>
