@@ -236,8 +236,8 @@
             const feedback = document.getElementById('feedback');
             feedback.className = 'feedback ' + choice.type + ' show';
             
-            let title = choice.points === 2 ? '✅ Ethical Choice!' : 
-                       choice.points ===  1 '⚠️ Questionable Choice' : '❌ Unethical Choice';
+            let title = choice.points === 2 ? '\u2705 Ethical Choice!' : 
+           choice.points === 1 ? '\u26A0\uFE0F Questionable Choice' : '\u274C Unethical Choice';
             
             feedback.innerHTML = '<strong>' + title + '</strong>' +
                                '<p>' + choice.feedback + '</p>' +
