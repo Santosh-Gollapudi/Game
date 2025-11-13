@@ -133,7 +133,7 @@
         <p class="subtitle">Test Your Workplace Ethics & Honesty</p>
         
         <div id="game-area">
-            <div class="score">Score: <span id="score">0</span>/50</div>
+            <div class="score">Score: <span id="score">0</span>/10</div>
             <div id="scenario-container"></div>
             <div id="feedback" class="feedback"></div>
             <button id="next-btn" class="hidden">Next Scenario</button>
@@ -141,7 +141,7 @@
 
         <div id="final-screen" class="hidden final-screen">
             <h2>🎉 Challenge Complete!</h2>
-            <div class="score">Final Score: <span id="final-score"></span>/50</div>
+            <div class="score">Final Score: <span id="final-score"></span>/10</div>
             <p id="final-message"></p>
             <button onclick="location.reload()">Play Again</button>
         </div>
@@ -153,8 +153,8 @@
                 situation: "Your colleague shares an innovative idea with you in private. Your manager later asks who came up with it.",
                 choices: [
                     {text: "Take credit yourself", points: 0, type: "unethical", feedback: "Taking credit for others' work violates trust and honesty. This damages relationships and creates a toxic culture."},
-                    {text: "Say it was a team effort", points: 5, type: "questionable", feedback: "While collaborative, this doesn't give proper credit where it's due. Honesty means acknowledging individual contributions."},
-                    {text: "Give your colleague full credit", points: 10, type: "ethical", feedback: "Excellent! Giving proper credit demonstrates integrity and builds trust. Honest recognition strengthens workplace relationships."},
+                    {text: "Say it was a team effort", points: 1, type: "questionable", feedback: "While collaborative, this doesn't give proper credit where it's due. Honesty means acknowledging individual contributions."},
+                    {text: "Give your colleague full credit", points: 2, type: "ethical", feedback: "Excellent! Giving proper credit demonstrates integrity and builds trust. Honest recognition strengthens workplace relationships."},
                     {text: "Say you don't remember", points: 0, type: "unethical", feedback: "Avoiding the truth is dishonest and prevents proper recognition. Integrity requires acknowledging facts even when uncomfortable."}
                 ]
             },
@@ -163,17 +163,17 @@
                 choices: [
                     {text: "Use it for personal gain", points: 0, type: "unethical", feedback: "Using insider information is both unethical and often illegal. Integrity means respecting confidentiality regardless of personal benefit."},
                     {text: "Share it with close friends", points: 0, type: "unethical", feedback: "Sharing confidential information breaks trust and can harm the organization. Honesty includes protecting sensitive data."},
-                    {text: "Keep it confidential", points: 10, type: "ethical", feedback: "Perfect! Maintaining confidentiality shows integrity and professionalism. Trustworthiness is built through respecting boundaries."},
-                    {text: "Report the leak", points: 10, type: "ethical", feedback: "Excellent! Reporting security breaches protects the organization and demonstrates commitment to ethical standards."}
+                    {text: "Keep it confidential", points: 2, type: "ethical", feedback: "Perfect! Maintaining confidentiality shows integrity and professionalism. Trustworthiness is built through respecting boundaries."},
+                    {text: "Report the leak", points: 2, type: "ethical", feedback: "Excellent! Reporting security breaches protects the organization and demonstrates commitment to ethical standards."}
                 ]
             },
             {
                 situation: "A coworker asks you to cover for them by lying to your supervisor about missing a deadline.",
                 choices: [
                     {text: "Agree to help", points: 0, type: "unethical", feedback: "Lying to supervisors breaks trust and enables poor behavior. Integrity means being honest even when it's difficult."},
-                    {text: "Refuse politely", points: 5, type: "questionable", feedback: "Good boundary-setting, but consider encouraging honesty. True integrity involves helping others make ethical choices."},
-                    {text: "Tell the supervisor immediately", points: 5, type: "questionable", feedback: "Honesty is important, but going directly to authority without addressing your colleague first may damage trust."},
-                    {text: "Suggest they be honest instead", points: 10, type: "ethical", feedback: "Outstanding! Encouraging honesty helps create a culture of integrity and supports your colleague's growth."}
+                    {text: "Refuse politely", points: 1, type: "questionable", feedback: "Good boundary-setting, but consider encouraging honesty. True integrity involves helping others make ethical choices."},
+                    {text: "Tell the supervisor immediately", points: 1, type: "questionable", feedback: "Honesty is important, but going directly to authority without addressing your colleague first may damage trust."},
+                    {text: "Suggest they be honest instead", points: 2, type: "ethical", feedback: "Outstanding! Encouraging honesty helps create a culture of integrity and supports your colleague's growth."}
                 ]
             },
             {
@@ -181,17 +181,17 @@
                 choices: [
                     {text: "Ignore it", points: 0, type: "unethical", feedback: "Ignoring unethical behavior allows it to continue. Integrity requires addressing issues that affect the workplace."},
                     {text: "Join them", points: 0, type: "unethical", feedback: "Misusing company resources violates trust and policies. Honesty means respecting organizational property and time."},
-                    {text: "Discuss it privately with them", points: 10, type: "ethical", feedback: "Excellent! Private discussion shows respect while addressing the issue. This approach promotes integrity without public shaming."},
-                    {text: "Report to management immediately", points: 5, type: "questionable", feedback: "Reporting may be necessary, but addressing the person first shows respect and can resolve issues more constructively."}
+                    {text: "Discuss it privately with them", points: 2, type: "ethical", feedback: "Excellent! Private discussion shows respect while addressing the issue. This approach promotes integrity without public shaming."},
+                    {text: "Report to management immediately", points: 1, type: "questionable", feedback: "Reporting may be necessary, but addressing the person first shows respect and can resolve issues more constructively."}
                 ]
             },
             {
                 situation: "You observe inappropriate behavior toward a team member but fear retaliation if you speak up.",
                 choices: [
                     {text: "Stay silent", points: 0, type: "unethical", feedback: "Silence enables harmful behavior. Integrity requires standing up for what's right, even when it's difficult."},
-                    {text: "Support the victim privately", points: 5, type: "questionable", feedback: "Private support is valuable, but doesn't address the root problem. True integrity involves taking action to stop harm."},
-                    {text: "Report through proper channels", points: 10, type: "ethical", feedback: "Perfect! Using proper reporting channels protects victims and yourself while maintaining integrity. This is courageous honesty."},
-                    {text: "Confront the perpetrator directly", points: 5, type: "questionable", feedback: "Direct confrontation shows courage but may escalate danger. Proper reporting channels are safer and more effective."}
+                    {text: "Support the victim privately", points: 1, type: "questionable", feedback: "Private support is valuable, but doesn't address the root problem. True integrity involves taking action to stop harm."},
+                    {text: "Report through proper channels", points: 2, type: "ethical", feedback: "Perfect! Using proper reporting channels protects victims and yourself while maintaining integrity. This is courageous honesty."},
+                    {text: "Confront the perpetrator directly", points: 1, type: "questionable", feedback: "Direct confrontation shows courage but may escalate danger. Proper reporting channels are safer and more effective."}
                 ]
             }
         ];
@@ -236,8 +236,8 @@
             const feedback = document.getElementById('feedback');
             feedback.className = 'feedback ' + choice.type + ' show';
             
-            let title = choice.points === 10 ? '✅ Ethical Choice!' : 
-                       choice.points === 5 ? '⚠️ Questionable Choice' : '❌ Unethical Choice';
+            let title = choice.points === 2 ? '✅ Ethical Choice!' : 
+                       choice.points ===  1 '⚠️ Questionable Choice' : '❌ Unethical Choice';
             
             feedback.innerHTML = '<strong>' + title + '</strong>' +
                                '<p>' + choice.feedback + '</p>' +
@@ -258,11 +258,11 @@
             document.getElementById('final-score').textContent = totalScore;
 
             let message = '';
-            if (totalScore >= 45) {
+            if (totalScore >= 9) {
                 message = '🌟 Outstanding! You demonstrate exceptional integrity and honesty. You\'re a role model for workplace ethics!';
-            } else if (totalScore >= 35) {
+            } else if (totalScore >= 7) {
                 message = '👍 Great job! You have a strong ethical compass and make good decisions most of the time.';
-            } else if (totalScore >= 25) {
+            } else if (totalScore >= 5) {
                 message = '💭 Good effort! You understand ethics but there\'s room to strengthen your commitment to integrity.';
             } else {
                 message = '📚 Keep learning! Review workplace ethics principles to better navigate ethical dilemmas with integrity.';
